@@ -20,14 +20,13 @@ public class ProjetService implements IProjetService {
 	@Autowired
 	private ProjetRepository projetRepo;
 	
-	@Autowired
-	private Projet projet;
+	
 	
 	
 	
 	@Override
 	public String deleteProjet(Long id) {
-		Optional<Projet> opt= projetRepo.findById(projet.getId());
+		Optional<Projet> opt= projetRepo.findById(id);
 		if(opt.isPresent()) { 
 			projetRepo.deleteById(id);
 			return "Le projet a bien été supprimé";
@@ -39,6 +38,7 @@ public class ProjetService implements IProjetService {
 	@Override
 	public ProjetItem saveProjet(String libelle) {
 				
+		Projet projet = new Projet();
 		projet.setLibelle(libelle);
 		
 		return new ProjetItem(projetRepo.save(projet));

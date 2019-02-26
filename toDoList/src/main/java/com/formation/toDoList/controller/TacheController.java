@@ -1,6 +1,7 @@
 package com.formation.toDoList.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,7 +51,7 @@ public class TacheController {
 	 * @type: DELETE
 	 * @return: Retourne un message si tout s'est bien passé
 	 */
-	@GetMapping(value="/{id}")
+	@DeleteMapping(value="/{id}")
 	@ResponseBody
 	public String delete(@PathVariable Long id){
 		return tacheService.deleteById(id);
@@ -64,7 +65,7 @@ public class TacheController {
 	 * @type: POST
 	 * @return: Retourne un objet de type TacheItem
 	 */
-	@PostMapping
+	@PostMapping(value="/modify")
 	@ResponseBody
 	public TacheItem modify(@RequestBody Tache tache){
 		return tacheService.save(tache);
@@ -78,7 +79,7 @@ public class TacheController {
 	 * @type: GET
 	 * @return: Retourne un objet de type TacheItem
 	 */
-	@PostMapping(value="/{id}")
+	@GetMapping(value="/{id}")
 	@ResponseBody
 	public TacheItem valide(@PathVariable Long id){
 		return tacheService.valide(id);
