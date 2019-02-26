@@ -2,6 +2,7 @@ package com.formation.toDoList.dto;
 
 import java.util.Date;
 
+import com.formation.toDoList.persistence.entity.Projet;
 import com.formation.toDoList.persistence.entity.Tache;
 
 public class TacheItem {
