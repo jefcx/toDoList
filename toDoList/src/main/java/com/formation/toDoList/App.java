@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * VTC
- * @author: Julie-Claire, Melody, Logithan, Jeremy (Aelion)
+ * toDoList
+ * @author: Julie-Claire, Melody,Jeremy (Aelion)
  * @description: Back-end, gestion vtc
  * @version: 1.0.0
  */

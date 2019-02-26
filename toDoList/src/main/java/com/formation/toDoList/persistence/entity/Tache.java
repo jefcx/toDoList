@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -69,6 +71,10 @@ public class Tache {
 	 */
 	@Column (name = "etat", nullable =false)
 	private int etat;
+	
+	@ManyToOne
+	@JoinColumn(name = "idProjet", referencedColumnName = "id")
+	private Projet projet;
 
 	public Long getId() {
 		return id;
@@ -108,6 +114,14 @@ public class Tache {
 
 	public void setEtat(int etat) {
 		this.etat = etat;
+	}
+
+	public Projet getProjet() {
+		return projet;
+	}
+
+	public void setProjet(Projet projet) {
+		this.projet = projet;
 	}
 	
 }
