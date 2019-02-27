@@ -13,6 +13,7 @@ public class TacheItem {
 	private int priorite;
 	private int etat;
 	private Projet projet;
+	private Long idUtilisateur;
 	
 	public TacheItem(Tache tache) {
 		this.setId(tache.getId());
@@ -21,6 +22,7 @@ public class TacheItem {
 		this.setEtat(tache.getEtat());
 		this.setPriorite(tache.getPriorite());
 		this.setProjet(tache.getProjet());
+		this.setIdUtilisateur(tache.getUtilisateur().getId());
 	}
 
 	public Long getId() {
@@ -69,6 +71,14 @@ public class TacheItem {
 
 	public void setProjet(Projet projet) {
 		this.projet = projet;
+	}
+
+	public Long getIdUtilisateur() {
+		return idUtilisateur;
+	}
+
+	public void setIdUtilisateur(Long idUtilisateur) {
+		this.idUtilisateur = idUtilisateur;
 	}
 	
 }

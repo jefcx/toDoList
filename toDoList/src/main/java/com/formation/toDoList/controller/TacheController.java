@@ -3,6 +3,7 @@ package com.formation.toDoList.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +17,7 @@ import com.formation.toDoList.service.ITacheService;
 
 /**
  * @project: toDoList
- * @author: Jérémy BLANC
+ * @author: Jérémy, Mélody, Julie-Claire
  * @name: TacheController
  * @type: controller
  * @date: 26-02-2019
@@ -60,12 +61,12 @@ public class TacheController {
 	/**
 	 * 
 	 * @metho: modify
-	 * @desc: Appelle la méthode service "modify", permet de modifier une tache
+	 * @desc: Appelle la méthode service "modify", permet de mettre à jour une tache
 	 * @param: Objet de type Tache
-	 * @type: POST
+	 * @type: PATCH
 	 * @return: Retourne un objet de type TacheItem
 	 */
-	@PostMapping(value="/modify")
+	@PatchMapping(value="/{id}")
 	@ResponseBody
 	public TacheItem modify(@RequestBody Tache tache){
 		return tacheService.save(tache);

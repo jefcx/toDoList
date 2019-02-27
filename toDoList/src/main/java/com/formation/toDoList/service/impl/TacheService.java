@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.formation.toDoList.dto.TacheItem;
+import com.formation.toDoList.persistence.entity.Projet;
 import com.formation.toDoList.persistence.entity.Tache;
+import com.formation.toDoList.persistence.repository.ProjetRepository;
 import com.formation.toDoList.persistence.repository.TacheRepository;
 import com.formation.toDoList.service.ITacheService;
 
@@ -19,9 +21,33 @@ public class TacheService implements ITacheService{
 	@Autowired
 	private TacheRepository tacheRepo;
 	
+	@Autowired
+	private ProjetRepository projetRepo;
+	
 	@Override
 	public TacheItem save(Tache tache) {
 		
+		// On vérifie que la tâche est bien liée à un projet
+		// Si la tache n'est liée à aucun projet, on la lie à un projet fourre-tout
+		if(tache.getProjet() == null) {
+
+			// On recherche dans la bdd si le projet fourre-tout "Boite de réception", sinon on la créé
+			Optional<Projet> opt = projetRepo.findByLibelle("Boite de réception");
+			if(opt.isPresent()) {
+				tache.setProjet(opt.get());
+			} else {
+				
+				// On créé le projet
+				Projet projet = new Projet();
+				
+				projet.setLibelle("Boite de réception");
+				projetRepo.save(projet);
+				
+				projet.setId(projetRepo.findByLibelle("Boite de réception").get().getId());
+				
+				tache.setProjet(projet);
+			}
+		}
 		return new TacheItem(tacheRepo.save(tache));
 	}
 	

@@ -5,7 +5,7 @@ import com.formation.toDoList.persistence.entity.Tache;
 
 /**
  * @project: toDoList
- * @author: Jérémy BLANC
+ * @author: Jérémy, Mélody, Julie-Claire
  * @name: ITacheService
  * @type: interface
  * @date: 26-02-2019

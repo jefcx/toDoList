@@ -2,15 +2,15 @@ package com.formation.toDoList.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.formation.toDoList.persistence.entity.Tache;
+import com.formation.toDoList.persistence.entity.Utilisateur;
 
 /**
  * @project: toDoList
  * @author: Jérémy, Mélody, Julie-Claire
- * @name: TacheRepository
+ * @name: UtilisateurRepository
  * @type: repository
- * @date: 26-02-2019
+ * @date: 27-02-2019
  */
-public interface TacheRepository extends JpaRepository<Tache,Long>{
+public interface UtilisateurRepository extends JpaRepository<Utilisateur,Long>{
 	
 }

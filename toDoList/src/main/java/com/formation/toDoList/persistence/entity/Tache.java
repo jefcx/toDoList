@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 /**
  * @project: toDoList
- * @author: Jérémy BLANC
+ * @author: Jérémy, Mélody, Julie-Claire
  * @name: Tache
  * @type: entity
  * @date: 26-02-2019
@@ -75,6 +75,10 @@ public class Tache {
 	@ManyToOne
 	@JoinColumn(name = "idProjet", referencedColumnName = "id")
 	private Projet projet;
+	
+	@ManyToOne
+	@JoinColumn(name = "idUtilisateur", referencedColumnName = "id")
+	private Utilisateur utilisateur;
 
 	public Long getId() {
 		return id;
@@ -122,6 +126,14 @@ public class Tache {
 
 	public void setProjet(Projet projet) {
 		this.projet = projet;
+	}
+
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
+
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 	
 }
