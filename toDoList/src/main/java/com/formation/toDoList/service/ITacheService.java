@@ -1,6 +1,10 @@
 package com.formation.toDoList.service;
 
+import java.util.Date;
+import java.util.List;
+
 import com.formation.toDoList.dto.TacheItem;
+import com.formation.toDoList.dto.TacheListItem;
 import com.formation.toDoList.persistence.entity.Tache;
 
 /**
@@ -44,4 +48,19 @@ public interface ITacheService {
 	 */
 	TacheItem valide(Long id);
 	
+	/**
+	 * 
+	 * @metho: findAll
+	 * @desc: Permet d'afficher toutes les taches
+	 * @param: 
+	 */
+	List<TacheListItem> findAll();
+	
+	/**
+	 * 
+	 * @metho: findByDate
+	 * @desc: Permet d'afficher toutes les taches pour une date donnée
+	 * @param: 
+	 */
+	List<TacheListItem> findByDate();
 }
