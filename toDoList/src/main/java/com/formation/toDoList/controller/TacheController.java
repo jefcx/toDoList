@@ -1,5 +1,7 @@
 package com.formation.toDoList.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.formation.toDoList.dto.TacheItem;
+import com.formation.toDoList.dto.TacheListItem;
 import com.formation.toDoList.persistence.entity.Tache;
 import com.formation.toDoList.service.ITacheService;
 
@@ -79,10 +82,26 @@ public class TacheController {
 	 * @type: GET
 	 * @return: Retourne un objet de type TacheItem
 	 */
-	@GetMapping(value="/{id}")
+	@GetMapping (value="/{id}")
 	@ResponseBody
 	public TacheItem valide(@PathVariable Long id){
 		return tacheService.valide(id);
 	}
+	
+	@GetMapping
+	@ResponseBody
+	public List<TacheListItem> findAll() {
+		
+		return tacheService.findAll();
+	}
+	
+
+	@GetMapping (value= "/today")
+	@ResponseBody
+	public List<TacheListItem> findByDate() {
+		
+		return tacheService.findByDate();
+	}
+	
 	
 }

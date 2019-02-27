@@ -1,6 +1,9 @@
 package com.formation.toDoList.service.impl;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -8,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.formation.toDoList.dto.TacheItem;
+import com.formation.toDoList.dto.TacheListItem;
 import com.formation.toDoList.persistence.entity.Tache;
 import com.formation.toDoList.persistence.repository.TacheRepository;
 import com.formation.toDoList.service.ITacheService;
@@ -65,5 +69,25 @@ public class TacheService implements ITacheService{
 		}
 		//TODO message d'erreur
 		return null;
+	}
+	
+	@Override
+	public List<TacheListItem> findByDate (){
+		/**ArrayList<Tache>opt=new ArrayList<Tache>();**/
+		
+
+		Optional<List<Tache>> opt= tacheRepo.findByDate();
+		if(opt.isPresent()) {
+			
+			return opt.get().stream().map(p -> new TacheListItem(p)).collect(Collectors.toList());
+		}
+		return null;
+		
+	}
+	
+	@Override
+	public List<TacheListItem> findAll() {
+		List<Tache> taches = tacheRepo.findAll();
+		return taches.stream().map(p -> new TacheListItem(p)).collect(Collectors.toList());
 	}
 }
