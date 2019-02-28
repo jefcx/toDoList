@@ -1,6 +1,5 @@
 package com.formation.toDoList.service;
 
-import java.util.Date;
 import java.util.List;
 
 import com.formation.toDoList.dto.TacheItem;
@@ -47,6 +46,14 @@ public interface ITacheService {
 	 * @param: Long id, id d'une tache
 	 */
 	TacheItem valide(Long id);
+	
+	/**
+	 * 
+	 * @metho: lie
+	 * @desc: Permet de lier une tache à un projet existant
+	 * @param: Long idTache, id d'une tache - Long idProjet, id d'un projet
+	 */
+	TacheItem lie(Long idTache, Long idProjet);
 	
 	/**
 	 * 

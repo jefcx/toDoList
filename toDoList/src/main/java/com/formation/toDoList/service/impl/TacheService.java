@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.formation.toDoList.dto.TacheItem;
 import com.formation.toDoList.dto.TacheListItem;
+import com.formation.toDoList.exception.NotFoundException;
 import com.formation.toDoList.persistence.entity.Projet;
 import com.formation.toDoList.persistence.entity.Tache;
 import com.formation.toDoList.persistence.repository.ProjetRepository;
@@ -114,5 +115,19 @@ public class TacheService implements ITacheService{
 	public List<TacheListItem> findAll() {
 		List<Tache> taches = tacheRepo.findAll();
 		return taches.stream().map(p -> new TacheListItem(p)).collect(Collectors.toList());
+	}
+	
+	@Override
+	public TacheItem lie(Long idTache, Long idProjet) {
+		// On vérifie que l'id de la tache correspond bien à une tache en bdd
+		Optional<Tache> optTache = tacheRepo.findById(idTache);
+		
+		// On vérifie que l'id du projet correspond bien à un projet en bdd
+		Optional<Projet> optProjet = projetRepo.findById(idProjet);
+		
+		if(optTache.isPresent() && optProjet.isPresent()) {
+			optTache.get().setProjet(optProjet.get());
+			return new TacheItem(tacheRepo.save(optTache.get()));
+		} else throw new NotFoundException("La tache ou le projet n'existe pas.");
 	}
 }

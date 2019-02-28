@@ -89,6 +89,20 @@ public class TacheController {
 		return tacheService.valide(id);
 	}
 	
+	/**
+	 * 
+	 * @metho: lie
+	 * @desc: Appelle la méthode service "lie", permet de lier une tâche à un projet existant
+	 * @param: Long idTache, id d'une tache - Long idProjet, id d'un projet
+	 * @type: GET
+	 * @return: Retourne un objet de type TacheItem
+	 */
+	@GetMapping (value="/{idTache}/{idProjet}")
+	@ResponseBody
+	public TacheItem lie(@PathVariable Long idTache, @PathVariable Long idProjet){
+		return tacheService.lie(idTache, idProjet);
+	}
+	
 	@GetMapping
 	@ResponseBody
 	public List<TacheListItem> findAll() {
