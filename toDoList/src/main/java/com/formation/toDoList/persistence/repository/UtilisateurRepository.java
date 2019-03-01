@@ -1,6 +1,9 @@
 package com.formation.toDoList.persistence.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.formation.toDoList.persistence.entity.Utilisateur;
 
@@ -13,4 +16,6 @@ import com.formation.toDoList.persistence.entity.Utilisateur;
  */
 public interface UtilisateurRepository extends JpaRepository<Utilisateur,Long>{
 	
+	@Query (value = "SELECT * FROM utilisateur WHERE login = ?1 AND mdp = ?2", nativeQuery = true)
+	Optional<Utilisateur> findByLibelle(String login, String mdp);
 }

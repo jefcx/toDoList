@@ -1,5 +1,6 @@
 package com.formation.toDoList.service;
 
+import com.formation.toDoList.dto.ConnectUserItem;
 import com.formation.toDoList.dto.UtilisateurItem;
 import com.formation.toDoList.persistence.entity.Utilisateur;
 
@@ -27,5 +28,7 @@ public interface IUtilisateurService {
 	 * @param: Long id, id d'un utilisateur - String mdp, mot de passe de l'utilisateur associé
 	 */
 	String delete(Long id, String mdp);
+
+	String connect(ConnectUserItem utilisateur);
 	
 }

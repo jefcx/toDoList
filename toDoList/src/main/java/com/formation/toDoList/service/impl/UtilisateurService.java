@@ -8,8 +8,10 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.formation.toDoList.dto.ConnectUserItem;
 import com.formation.toDoList.dto.UtilisateurItem;
 import com.formation.toDoList.exception.NotFoundException;
+import com.formation.toDoList.model.Token;
 import com.formation.toDoList.persistence.entity.Utilisateur;
 import com.formation.toDoList.persistence.repository.UtilisateurRepository;
 import com.formation.toDoList.service.IUtilisateurService;
@@ -47,7 +49,7 @@ public class UtilisateurService implements IUtilisateurService{
 		} else throw new NotFoundException("L'utilisateur n'existe pas.");
 	}
 	
-	private String crypt(String mdp) {
+	public String crypt(String mdp) {
 		
 		// Salage
 		mdp+= "TeaTeam";
@@ -56,5 +58,21 @@ public class UtilisateurService implements IUtilisateurService{
 		String result = DigestUtils.sha256Hex(mdp);
 		
 		return result;
+	}
+	
+	public String connect(ConnectUserItem utilisateur) {
+		// Recherche de l'utilisateur
+		Optional<Utilisateur> opt = utilisateurRepo.findByLibelle(utilisateur.getLogin(), crypt(utilisateur.getMdp()));
+		
+		if(opt.isPresent()) {
+			
+			Token myToken = new Token();
+			myToken.setId(opt.get().getId().toString());
+			myToken.setValue(crypt(opt.get().getId() + opt.get().getLogin()));
+			myToken.setUser(opt.get().getLogin());
+			
+			return myToken.getId() + "." + myToken.getValue() + "." + myToken.getUser();
+			
+		} else throw new NotFoundException("L'utilisateur n'existe pas.");
 	}
 }

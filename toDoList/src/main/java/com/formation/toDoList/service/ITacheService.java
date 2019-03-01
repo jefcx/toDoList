@@ -14,60 +14,20 @@ import com.formation.toDoList.persistence.entity.Tache;
  * @date: 26-02-2019
  */
 public interface ITacheService {
-	
-	/**
-	 * 
-	 * @metho: save
-	 * @desc: Permet de persister une tache
-	 * @param: Objet de type Tache
-	 */
+
+	List<TacheListItem> findAll();
+
+	TacheItem lie(Long idTache, Long idProjet);
+
+	List<TacheListItem> findByDate();
+
+	TacheItem valide(Long id);
+
+	String deleteById(Long id);
+
+	TacheItem modify(Tache tache);
+
 	TacheItem save(Tache tache);
 	
-	/**
-	 * 
-	 * @metho: delete
-	 * @desc: Permet de supprimer une tache
-	 * @param: Long id, id d'une tache
-	 */
-	String deleteById(Long id);
 	
-	/**
-	 * 
-	 * @metho: modify
-	 * @desc: Permet de modifier une tache
-	 * @param: Objet de type Tache
-	 */
-	TacheItem modify(Tache tache);
-	
-	/**
-	 * 
-	 * @metho: valide
-	 * @desc: Permet de valider (terminer) une tache
-	 * @param: Long id, id d'une tache
-	 */
-	TacheItem valide(Long id);
-	
-	/**
-	 * 
-	 * @metho: lie
-	 * @desc: Permet de lier une tache à un projet existant
-	 * @param: Long idTache, id d'une tache - Long idProjet, id d'un projet
-	 */
-	TacheItem lie(Long idTache, Long idProjet);
-	
-	/**
-	 * 
-	 * @metho: findAll
-	 * @desc: Permet d'afficher toutes les taches
-	 * @param: 
-	 */
-	List<TacheListItem> findAll();
-	
-	/**
-	 * 
-	 * @metho: findByDate
-	 * @desc: Permet d'afficher toutes les taches pour une date donnée
-	 * @param: 
-	 */
-	List<TacheListItem> findByDate();
 }
