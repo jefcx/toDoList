@@ -36,6 +36,10 @@ public interface ITacheService {
 	 * @param: Long idTache, id d'une tache - Long idProjet, id d'un projet
 	 */
 	TacheItem lie(Long idTache, Long idProjet);
+
+	String deleteById(Long id);
+
+	TacheItem save(Tache tache);
 	
 	/**
 	 * 
