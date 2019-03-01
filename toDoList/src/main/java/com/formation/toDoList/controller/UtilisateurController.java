@@ -4,20 +4,24 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.formation.toDoList.dto.ProjetItem;
+import com.formation.toDoList.dto.ConnectUserItem;
 import com.formation.toDoList.dto.TacheItem;
+//github.com/jefcx/toDoList
 import com.formation.toDoList.dto.UtilisateurItem;
 import com.formation.toDoList.persistence.entity.Utilisateur;
 import com.formation.toDoList.service.IUtilisateurService;
+import com.formation.toDoList.service.impl.AuthService;
 
 /**
  * @project: toDoList
@@ -33,6 +37,9 @@ public class UtilisateurController {
 	
 	@Autowired
 	private IUtilisateurService utilisateurService;
+	
+	@Autowired
+	private AuthService authService;
 	
 	/**
 	 * 
@@ -60,13 +67,22 @@ public class UtilisateurController {
 	 */
 	@DeleteMapping(value="/{id}/{mdp}")
 	@ResponseBody
-	public String delete(@PathVariable Long id, @PathVariable String mdp) throws Exception{
-		return utilisateurService.delete(id, mdp);
+	public String delete(@PathVariable Long id, @PathVariable String mdp, @RequestHeader HttpHeaders auth) throws Exception{
+		
+		if(auth.containsKey("Authorization") && auth.get("Authorization") != null) {
+
+			if(authService.isUserToken(auth.get("Authorization").toString())) {
+				return utilisateurService.delete(id, mdp);
+			}
+		}
+		
+		return "Acces refused";
 	}
 	
 	//TODO pouvoir modifier le mdp et le login de l'utilisateur
 
 	
+
 	/**
 	 * 
 	 * @metho: findTaskById
@@ -81,5 +97,14 @@ public class UtilisateurController {
 	public List<TacheItem> findTaskById(@PathVariable Long idUtilisateur) {
 		
 		return utilisateurService.findTaskById(idUtilisateur);
+	}
+
+	@PostMapping(value="/connect")
+	@ResponseBody
+	public String connect(@RequestBody ConnectUserItem utilisateur) throws Exception{
+		/*System.out.println(headers.get("authorization"));
+		, @RequestHeader HttpHeaders headers
+		System.out.println(headers.get("authorization"));*/
+		return utilisateurService.connect(utilisateur);
 	}
 }

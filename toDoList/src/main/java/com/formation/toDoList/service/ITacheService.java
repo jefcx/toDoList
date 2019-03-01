@@ -11,23 +11,8 @@ import com.formation.toDoList.persistence.entity.Tache;
  * @date: 26-02-2019
  */
 public interface ITacheService {
-	
-	/**
-	 * 
-	 * @metho: save
-	 * @desc: Permet de persister une tache
-	 * @param: Objet de type Tache
-	 */
-	TacheItem save(Tache tache);
-	
-	/**
-	 * 
-	 * @metho: delete
-	 * @desc: Permet de supprimer une tache
-	 * @param: Long id, id d'une tache
-	 */
-	String deleteById(Long id);
-	
+
+
 	/**
 	 * 
 	 * @metho: modify
