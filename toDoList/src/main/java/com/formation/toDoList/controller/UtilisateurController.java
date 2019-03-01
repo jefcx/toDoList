@@ -64,13 +64,15 @@ public class UtilisateurController {
 	@DeleteMapping(value="/{id}/{mdp}")
 	@ResponseBody
 	public String delete(@PathVariable Long id, @PathVariable String mdp, @RequestHeader HttpHeaders auth) throws Exception{
+		
+		if(auth.containsKey("Authorization") && auth.get("Authorization") != null) {
 
-		if(authService.isUserToken(auth.get("Authorization").toString())) {
-			//return utilisateurService.delete(id, mdp);
-			return "chouet";
+			if(authService.isUserToken(auth.get("Authorization").toString())) {
+				return utilisateurService.delete(id, mdp);
+			}
 		}
 		
-		else return "Acces refused";
+		return "Acces refused";
 	}
 	
 	//TODO pouvoir modifier le mdp et le login de l'utilisateur
