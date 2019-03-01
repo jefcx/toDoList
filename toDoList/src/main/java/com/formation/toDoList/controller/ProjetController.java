@@ -1,18 +1,22 @@
 package com.formation.toDoList.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.formation.toDoList.dto.ProjetItem;
+import com.formation.toDoList.exception.NotFoundException;
 import com.formation.toDoList.persistence.entity.Projet;
 import com.formation.toDoList.service.IProjetService;
+import com.formation.toDoList.service.impl.AuthService;
 
 
 /**
@@ -31,6 +35,9 @@ public class ProjetController {
 	@Autowired
 	IProjetService projetServ;
 	
+	@Autowired
+	private AuthService authService;
+	
 	/**
 	 * 
 	 * @metho: save
@@ -41,8 +48,14 @@ public class ProjetController {
 	 */
 	@GetMapping(value="/{libelle}")
 	@ResponseBody
-	public ProjetItem saveProjet(@PathVariable String libelle){
-		return projetServ.saveProjet(libelle);
+	public ProjetItem saveProjet(@PathVariable String libelle, @RequestHeader HttpHeaders auth){
+		if(auth.containsKey("Authorization") && auth.get("Authorization") != null) {
+
+			if(authService.isUserToken(auth.get("Authorization").toString())) {
+				
+				return projetServ.saveProjet(libelle);
+			}
+		} throw new NotFoundException("Acces refused");
 	}
 	
 	/**
@@ -55,9 +68,15 @@ public class ProjetController {
 	 */
 	@DeleteMapping(value="/{id}")
 	@ResponseBody
-	public String deleteProjet(@PathVariable Long id){
+	public String deleteProjet(@PathVariable Long id, @RequestHeader HttpHeaders auth){
 		//TODO gérer parse exception
-		return projetServ.deleteProjet(id);
+		if(auth.containsKey("Authorization") && auth.get("Authorization") != null) {
+
+			if(authService.isUserToken(auth.get("Authorization").toString())) {
+				
+				return projetServ.deleteProjet(id);
+			}
+		} throw new NotFoundException("Acces refused");
 	}
 
 	/**
@@ -70,8 +89,14 @@ public class ProjetController {
 	 */
 	@PutMapping
 	@ResponseBody
-	public ProjetItem modify(@RequestBody Projet projetToModify){
-		return projetServ.modifyProjet(projetToModify);
+	public ProjetItem modify(@RequestBody Projet projetToModify, @RequestHeader HttpHeaders auth){
+		if(auth.containsKey("Authorization") && auth.get("Authorization") != null) {
+
+			if(authService.isUserToken(auth.get("Authorization").toString())) {
+				
+				return projetServ.modifyProjet(projetToModify);
+			}
+		} throw new NotFoundException("Acces refused");
 	}
 	
 	

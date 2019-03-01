@@ -19,6 +19,7 @@ import com.formation.toDoList.dto.ConnectUserItem;
 import com.formation.toDoList.dto.TacheItem;
 //github.com/jefcx/toDoList
 import com.formation.toDoList.dto.UtilisateurItem;
+import com.formation.toDoList.exception.NotFoundException;
 import com.formation.toDoList.persistence.entity.Utilisateur;
 import com.formation.toDoList.service.IUtilisateurService;
 import com.formation.toDoList.service.impl.AuthService;
@@ -74,9 +75,7 @@ public class UtilisateurController {
 			if(authService.isUserToken(auth.get("Authorization").toString())) {
 				return utilisateurService.delete(id, mdp);
 			}
-		}
-		
-		return "Acces refused";
+		} throw new NotFoundException("Acces refused");
 	}
 	
 	//TODO pouvoir modifier le mdp et le login de l'utilisateur
@@ -94,9 +93,14 @@ public class UtilisateurController {
 	 */
 	@GetMapping (value="/{id}/tache")
 	@ResponseBody
-	public List<TacheItem> findTaskById(@PathVariable Long idUtilisateur) {
+	public List<TacheItem> findTaskById(@PathVariable Long idUtilisateur, @RequestHeader HttpHeaders auth) {
 		
-		return utilisateurService.findTaskById(idUtilisateur);
+		if(auth.containsKey("Authorization") && auth.get("Authorization") != null) {
+
+			if(authService.isUserToken(auth.get("Authorization").toString())) {
+				return utilisateurService.findTaskById(idUtilisateur);
+			}
+		} throw new NotFoundException("Acces refused");
 	}
 
 	@PostMapping(value="/connect")

@@ -1,19 +1,23 @@
 package com.formation.toDoList.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.formation.toDoList.dto.TacheItem;
+import com.formation.toDoList.exception.NotFoundException;
 import com.formation.toDoList.persistence.entity.Tache;
 import com.formation.toDoList.service.ITacheService;
+import com.formation.toDoList.service.impl.AuthService;
 
 /**
  * @project: toDoList
@@ -30,6 +34,9 @@ public class TacheController {
 	@Autowired
 	private ITacheService tacheService;
 	
+	@Autowired
+	private AuthService authService;
+	
 	/**
 	 * 
 	 * @metho: save
@@ -40,8 +47,14 @@ public class TacheController {
 	 */
 	@PostMapping
 	@ResponseBody
-	public TacheItem save(@RequestBody Tache tache){
-		return tacheService.save(tache);
+	public TacheItem save(@RequestBody Tache tache, @RequestHeader HttpHeaders auth){
+		if(auth.containsKey("Authorization") && auth.get("Authorization") != null) {
+
+			if(authService.isUserToken(auth.get("Authorization").toString())) {
+				
+				return tacheService.save(tache);
+			}
+		}  throw new NotFoundException("Acces refused");
 	}
 	
 	/**
@@ -54,8 +67,14 @@ public class TacheController {
 	 */
 	@DeleteMapping(value="/{id}")
 	@ResponseBody
-	public String delete(@PathVariable Long id){
-		return tacheService.deleteById(id);
+	public String delete(@PathVariable Long id, @RequestHeader HttpHeaders auth){
+		if(auth.containsKey("Authorization") && auth.get("Authorization") != null) {
+
+			if(authService.isUserToken(auth.get("Authorization").toString())) {
+				
+				return tacheService.deleteById(id);
+			}
+		} throw new NotFoundException("Acces refused");
 	}
 	
 	/**
@@ -68,8 +87,14 @@ public class TacheController {
 	 */
 	@PutMapping
 	@ResponseBody
-	public TacheItem modify(@RequestBody Tache tacheToModify){
-		return tacheService.modify(tacheToModify);
+	public TacheItem modify(@RequestBody Tache tacheToModify, @RequestHeader HttpHeaders auth){
+		if(auth.containsKey("Authorization") && auth.get("Authorization") != null) {
+
+			if(authService.isUserToken(auth.get("Authorization").toString())) {
+				
+				return tacheService.modify(tacheToModify);
+			}
+		} throw new NotFoundException("Acces refused");
 	}
 	
 	/**
@@ -82,8 +107,15 @@ public class TacheController {
 	 */
 	@GetMapping (value="/{id}")
 	@ResponseBody
-	public TacheItem valide(@PathVariable Long id){
-		return tacheService.valide(id);
+	public TacheItem valide(@PathVariable Long id, @RequestHeader HttpHeaders auth){
+		
+		if(auth.containsKey("Authorization") && auth.get("Authorization") != null) {
+
+			if(authService.isUserToken(auth.get("Authorization").toString())) {
+				
+				return tacheService.valide(id);
+			}
+		} throw new NotFoundException("Acces refused");
 	}
 	
 	/**
@@ -96,8 +128,14 @@ public class TacheController {
 	 */
 	@GetMapping (value="/{idTache}/{idProjet}")
 	@ResponseBody
-	public TacheItem lie(@PathVariable Long idTache, @PathVariable Long idProjet){
-		return tacheService.lie(idTache, idProjet);
+	public TacheItem lie(@PathVariable Long idTache, @PathVariable Long idProjet, @RequestHeader HttpHeaders auth){
+		
+		if(auth.containsKey("Authorization") && auth.get("Authorization") != null) {
+
+			if(authService.isUserToken(auth.get("Authorization").toString())) {
+				return tacheService.lie(idTache, idProjet);
+			}
+		} throw new NotFoundException("Acces refused");
 	}
 	
 	/*@GetMapping
