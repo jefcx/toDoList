@@ -1,8 +1,6 @@
 package com.formation.toDoList.service.impl;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.formation.toDoList.dto.TacheItem;
-import com.formation.toDoList.dto.TacheListItem;
 import com.formation.toDoList.exception.NotFoundException;
 import com.formation.toDoList.persistence.entity.Projet;
 import com.formation.toDoList.persistence.entity.Tache;
@@ -66,20 +63,18 @@ public class TacheService implements ITacheService{
 		}		
 	}
 	
+	
 	@Override
-	public TacheItem modify(Tache tache) {
-		
-		TacheItem tacheItem = new TacheItem(tache);
-		
-		Optional<Tache> opt = tacheRepo.findById(tacheItem.getId());
-		
+	public TacheItem modify(Tache tacheToModify) throws NotFoundException  {
+		Optional<Tache> opt= tacheRepo.findById(tacheToModify.getId());
 		if(opt.isPresent()) {
-			tacheRepo.save(tache);
-			return tacheItem;
-		}
+			
+			return new TacheItem(tacheRepo.save(tacheToModify));
+		} 
 		//TODO message d'erreur
-		return null;
+		else throw new NotFoundException("La tache n'existe pas");
 	}
+	
 	
 	@Override
 	public TacheItem valide(Long id) {
@@ -98,26 +93,6 @@ public class TacheService implements ITacheService{
 	}
 	
 	@Override
-	public List<TacheListItem> findByDate (){
-		/**ArrayList<Tache>opt=new ArrayList<Tache>();**/
-		
-
-		Optional<List<Tache>> opt= tacheRepo.findByDate();
-		if(opt.isPresent()) {
-			
-			return opt.get().stream().map(p -> new TacheListItem(p)).collect(Collectors.toList());
-		}
-		return null;
-		
-	}
-	
-	@Override
-	public List<TacheListItem> findAll() {
-		List<Tache> taches = tacheRepo.findAll();
-		return taches.stream().map(p -> new TacheListItem(p)).collect(Collectors.toList());
-	}
-	
-	@Override
 	public TacheItem lie(Long idTache, Long idProjet) {
 		// On vérifie que l'id de la tache correspond bien à une tache en bdd
 		Optional<Tache> optTache = tacheRepo.findById(idTache);
@@ -130,4 +105,51 @@ public class TacheService implements ITacheService{
 			return new TacheItem(tacheRepo.save(optTache.get()));
 		} else throw new NotFoundException("La tache ou le projet n'existe pas.");
 	}
+	
+	/*@Override
+	public List<TacheItem> findByDate (){
+		
+		
+
+		Optional<List<Tache>> opt= tacheRepo.findByDate();
+		if(opt.isPresent()) {
+			
+			return opt.get().stream().map(p -> new TacheItem(p)).collect(Collectors.toList());
+		}
+		return null;
+		
+	}
+	
+	@Override
+	public List<TacheItem> findWeek (){
+		
+		
+
+		Optional<List<Tache>> opt= tacheRepo.findWeek();
+		if(opt.isPresent()) {
+			
+			return opt.get().stream().map(p -> new TacheItem(p)).collect(Collectors.toList());
+		}
+		return null;
+		
+	}
+	
+	@Override
+	public List<TacheItem> findLate(){
+		Optional<List<Tache>> opt= tacheRepo.findLate();
+		if(opt.isPresent()) {
+			
+			return opt.get().stream().map(p -> new TacheItem(p)).collect(Collectors.toList());
+		}
+		return null;
+		
+	}
+	
+	@Override
+	public List<TacheItem> findAll() {
+		List<Tache> taches = tacheRepo.findAll();
+		return taches.stream().map(p -> new TacheItem(p)).collect(Collectors.toList());
+	}
+	*/
+	
 }

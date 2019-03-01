@@ -1,6 +1,8 @@
 package com.formation.toDoList.service.impl;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -8,9 +10,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.formation.toDoList.dto.TacheItem;
 import com.formation.toDoList.dto.UtilisateurItem;
 import com.formation.toDoList.exception.NotFoundException;
+import com.formation.toDoList.persistence.entity.Tache;
 import com.formation.toDoList.persistence.entity.Utilisateur;
+import com.formation.toDoList.persistence.repository.TacheRepository;
 import com.formation.toDoList.persistence.repository.UtilisateurRepository;
 import com.formation.toDoList.service.IUtilisateurService;
 
@@ -20,6 +25,9 @@ public class UtilisateurService implements IUtilisateurService{
 	
 	@Autowired
 	private UtilisateurRepository utilisateurRepo;
+	
+	@Autowired
+	private TacheRepository tacheRepo;
 	
 	@Override
 	public UtilisateurItem save(Utilisateur utilisateur) {
@@ -57,4 +65,15 @@ public class UtilisateurService implements IUtilisateurService{
 		
 		return result;
 	}
+	
+	/**
+	 Affiche les taches d'un utilisateur
+	  **/
+	 
+	@Override
+	public List<TacheItem> findTaskById(Long idUtilisateur) {
+		List<Tache> taches = tacheRepo.findTaskById(idUtilisateur);
+		return taches.stream().map(p -> new TacheItem(p)).collect(Collectors.toList());
+	}
+	
 }

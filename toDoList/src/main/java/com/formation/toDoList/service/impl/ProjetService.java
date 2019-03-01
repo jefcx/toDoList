@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.formation.toDoList.dto.ProjetItem;
+import com.formation.toDoList.exception.NotFoundException;
 import com.formation.toDoList.persistence.entity.Projet;
 import com.formation.toDoList.persistence.repository.ProjetRepository;
 import com.formation.toDoList.service.IProjetService;
@@ -25,13 +26,13 @@ public class ProjetService implements IProjetService {
 	
 	
 	@Override
-	public String deleteProjet(Long id) {
-		Optional<Projet> opt= projetRepo.findById(id);
+	public String deleteProjet(Long idProjet)  throws NotFoundException {
+		Optional<Projet> opt= projetRepo.findById(idProjet);
 		if(opt.isPresent()) { 
-			projetRepo.deleteById(id);
+			projetRepo.deleteById(idProjet);
 			return "Le projet a bien été supprimé";
 			}
-		else return null;
+		else throw new NotFoundException("Le projet n'existe pas");
 	
 	}
 	
@@ -45,14 +46,14 @@ public class ProjetService implements IProjetService {
 	}
 	
 	@Override
-	public ProjetItem modifyProjet(Projet projetToModify) {
+	public ProjetItem modifyProjet(Projet projetToModify)  {
 		Optional<Projet> opt= projetRepo.findById(projetToModify.getId());
 		if(opt.isPresent()) {
 			
 			return new ProjetItem(projetRepo.save(projetToModify));
 		} 
 		//TODO message d'erreur
-		else return null;
+		return null;
 	}
 	
 	

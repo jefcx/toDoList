@@ -1,9 +1,6 @@
 package com.formation.toDoList.service;
 
-import java.util.List;
-
 import com.formation.toDoList.dto.TacheItem;
-import com.formation.toDoList.dto.TacheListItem;
 import com.formation.toDoList.persistence.entity.Tache;
 
 /**
@@ -37,7 +34,7 @@ public interface ITacheService {
 	 * @desc: Permet de modifier une tache
 	 * @param: Objet de type Tache
 	 */
-	TacheItem modify(Tache tache);
+	TacheItem modify(Tache tacheToModify);
 	
 	/**
 	 * 
@@ -61,7 +58,7 @@ public interface ITacheService {
 	 * @desc: Permet d'afficher toutes les taches
 	 * @param: 
 	 */
-	List<TacheListItem> findAll();
+	//List<TacheListItem> findAll();
 	
 	/**
 	 * 
@@ -69,5 +66,21 @@ public interface ITacheService {
 	 * @desc: Permet d'afficher toutes les taches pour une date donnée
 	 * @param: 
 	 */
-	List<TacheListItem> findByDate();
+	//List<TacheListItem> findByDate();
+	
+	/**
+	 * 
+	 * @metho: findLate
+	 * @desc: Permet d'afficher toutes les taches en retard
+	 * @param: 
+	 */
+	//List<TacheListItem> findLate();
+	
+	/**
+	 * 
+	 * @metho: findWeek
+	 * @desc: Permet d'afficher toutes les taches des 7 prochains jours
+	 * @param: 
+	 */
+	//List<TacheListItem> findWeek();
 }
