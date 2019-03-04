@@ -1,6 +1,7 @@
 package com.formation.toDoList.persistence.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,8 +18,11 @@ import com.formation.toDoList.persistence.entity.Tache;
  */
 public interface TacheRepository extends JpaRepository<Tache,Long>{
 	
-	@Query (value = "SELECT * FROM tache WHERE idUtilisateur=?1 AND etat = 0 ", nativeQuery = true)
+	@Query (value = "SELECT * FROM tache WHERE idUtilisateur=?1 AND etat = 0", nativeQuery = true)
 	List<Tache> findTaskById(Long idUtilisateur);
+	
+	@Query (value = "SELECT * FROM tache WHERE id=?1 AND idUtilisateur=?2", nativeQuery = true)
+	Optional<Tache> findTache(Long id, Long idUtilisateur);
 	
 	/*@Query (value = "SELECT * FROM tache", nativeQuery = true)
 	List<Tache> findAll();

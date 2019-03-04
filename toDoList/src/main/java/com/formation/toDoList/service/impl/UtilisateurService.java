@@ -10,11 +10,9 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.formation.toDoList.dto.ConnectUserItem;
 import com.formation.toDoList.dto.TacheItem;
 import com.formation.toDoList.dto.UtilisateurItem;
 import com.formation.toDoList.exception.NotFoundException;
-import com.formation.toDoList.model.Token;
 import com.formation.toDoList.persistence.entity.Tache;
 import com.formation.toDoList.persistence.entity.Utilisateur;
 import com.formation.toDoList.persistence.repository.TacheRepository;
@@ -79,19 +77,10 @@ public class UtilisateurService implements IUtilisateurService{
 		return taches.stream().map(p -> new TacheItem(p)).collect(Collectors.toList());
 	}
 
-	public String connect(ConnectUserItem utilisateur) {
+	@Override
+	public Utilisateur findByLoginAndPassword(String userName, String password) {
 		// Recherche de l'utilisateur
-		Optional<Utilisateur> opt = utilisateurRepo.findByLibelle(utilisateur.getLogin(), crypt(utilisateur.getMdp()));
+		return utilisateurRepo.findByLibelle(userName, crypt(password));
 		
-		if(opt.isPresent()) {
-			
-			Token myToken = new Token();
-			myToken.setId(opt.get().getId().toString());
-			myToken.setValue(crypt(opt.get().getId() + opt.get().getLogin()));
-			myToken.setUser(opt.get().getLogin());
-			
-			return myToken.getId() + "." + myToken.getValue() + "." + myToken.getUser();
-			
-		} else throw new NotFoundException("L'utilisateur n'existe pas.");
 	}
 }

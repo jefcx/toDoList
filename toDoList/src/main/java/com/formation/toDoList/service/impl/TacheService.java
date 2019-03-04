@@ -14,6 +14,7 @@ import com.formation.toDoList.persistence.entity.Tache;
 import com.formation.toDoList.persistence.repository.ProjetRepository;
 import com.formation.toDoList.persistence.repository.TacheRepository;
 import com.formation.toDoList.service.ITacheService;
+import com.formation.toDoList.utils.AuthChecker;
 
 @Service
 @Transactional
@@ -24,6 +25,9 @@ public class TacheService implements ITacheService{
 	
 	@Autowired
 	private ProjetRepository projetRepo;
+	
+	@Autowired
+	private AuthChecker authChecker;
 	
 	@Override
 	public TacheItem save(Tache tache) {
@@ -55,7 +59,9 @@ public class TacheService implements ITacheService{
 	@Override
 	public String deleteById(Long id) {
 		
-		if(tacheRepo.findById(id).isPresent()) {
+		Optional<Tache> opt = tacheRepo.findTache(id, authChecker.isUtilisateur().getId());
+		
+		if(opt.isPresent()) {
 			tacheRepo.deleteById(id);
 			return "La tache id: " + id + " a été supprimée.";
 		} else {
@@ -66,7 +72,8 @@ public class TacheService implements ITacheService{
 	
 	@Override
 	public TacheItem modify(Tache tacheToModify) throws NotFoundException  {
-		Optional<Tache> opt= tacheRepo.findById(tacheToModify.getId());
+		Optional<Tache> opt = tacheRepo.findTache(tacheToModify.getId(), authChecker.isUtilisateur().getId());
+		
 		if(opt.isPresent()) {
 			
 			return new TacheItem(tacheRepo.save(tacheToModify));
@@ -79,7 +86,7 @@ public class TacheService implements ITacheService{
 	@Override
 	public TacheItem valide(Long id) {
 		
-		Optional<Tache> opt = tacheRepo.findById(id);
+		Optional<Tache> opt = tacheRepo.findTache(id, authChecker.isUtilisateur().getId());
 		
 		if(opt.isPresent()) {
 			
@@ -95,7 +102,7 @@ public class TacheService implements ITacheService{
 	@Override
 	public TacheItem lie(Long idTache, Long idProjet) {
 		// On vérifie que l'id de la tache correspond bien à une tache en bdd
-		Optional<Tache> optTache = tacheRepo.findById(idTache);
+		Optional<Tache> optTache = tacheRepo.findTache(idTache, authChecker.isUtilisateur().getId());
 		
 		// On vérifie que l'id du projet correspond bien à un projet en bdd
 		Optional<Projet> optProjet = projetRepo.findById(idProjet);

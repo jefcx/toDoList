@@ -27,34 +27,46 @@ import com.formation.toDoList.service.IUtilisateurService;
  */
 
 @RestController
-@RequestMapping(value="/api/user")
-public class UtilisateurController {
+@RequestMapping(value="/api/private/user")
+public class UtilisateurSecureController {
 	
 	@Autowired
 	private IUtilisateurService utilisateurService;
 	
 	/**
 	 * 
-	 * @metho: save
-	 * @desc: Appelle la méthode service "save", permet de persister un utilisateur
-	 * @param: Objet de type Utilisateur
-	 * @type: POST
-	 * @return: Retourne un objet de type UtilisateurItem
+	 * @metho: delete
+	 * @desc: Appelle la méthode service "delete", permet de supprimer un utilisateur
+	 * @param: Long id, id d'un utilisateur - String mdp, mot de passe de l'utilisateur associé
+	 * @type: DELETE
+	 * @return: Retourne un message si tout s'est bien passé
 	 * @throws NoSuchAlgorithmException 
 	 */
-	@PostMapping
+	@DeleteMapping(value="/{id}/{mdp}")
 	@ResponseBody
-	public UtilisateurItem save(@RequestBody Utilisateur utilisateur) throws Exception{
-		return utilisateurService.save(utilisateur);
+	public String delete(@PathVariable Long id, @PathVariable String mdp) throws Exception{
+		
+		return utilisateurService.delete(id, mdp);
 	}
 	
+	//TODO pouvoir modifier le mdp et le login de l'utilisateur
+
 	
-	/*@PostMapping(value="/connect")
+
+	/**
+	 * 
+	 * @metho: findTaskById
+	 * @desc: Appelle la méthode service "findTaskById", permet d'afficher les taches d'un utilisateur
+	 * @param: Long id, id d'un utilisateur
+	 * @type: GET
+	 * @return: Retourne la liste des taches liées à l'utilisateur
+	 * @throws NoSuchAlgorithmException 
+	 */
+	@GetMapping (value="/{id}/tache")
 	@ResponseBody
-	public String connect(@RequestBody ConnectUserItem utilisateur) throws Exception{
-		/*System.out.println(headers.get("authorization"));
-		, @RequestHeader HttpHeaders headers
-		System.out.println(headers.get("authorization"));
-		return utilisateurService.connect(utilisateur);
-	}*/
+	public List<TacheItem> findTaskById(@PathVariable Long idUtilisateur) {
+		
+		return utilisateurService.findTaskById(idUtilisateur);
+	}
+
 }

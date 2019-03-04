@@ -3,7 +3,6 @@ package com.formation.toDoList.service;
 
 import java.util.List;
 
-import com.formation.toDoList.dto.ConnectUserItem;
 import com.formation.toDoList.dto.TacheItem;
 import com.formation.toDoList.dto.UtilisateurItem;
 import com.formation.toDoList.persistence.entity.Utilisateur;
@@ -33,7 +32,7 @@ public interface IUtilisateurService {
 	 */
 	String delete(Long id, String mdp);
 
-	String connect(ConnectUserItem utilisateur);
+	//String connect(ConnectUserItem utilisateur);
 	
 	/**
 	 * 
@@ -44,6 +43,8 @@ public interface IUtilisateurService {
 	
 
 	List<TacheItem> findTaskById(Long id);
+
+	Utilisateur findByLoginAndPassword(String userName, String password);
 
 	
 }
