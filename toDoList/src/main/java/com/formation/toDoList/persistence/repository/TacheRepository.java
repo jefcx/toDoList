@@ -24,10 +24,10 @@ public interface TacheRepository extends JpaRepository<Tache,Long>{
 	@Query (value = "SELECT * FROM tache WHERE id=?1 AND idUtilisateur=?2", nativeQuery = true)
 	Optional<Tache> findTache(Long id, Long idUtilisateur);
 	
-	/*@Query (value = "SELECT * FROM tache", nativeQuery = true)
-	List<Tache> findAll();
+	@Query (value = "SELECT * FROM tache WHERE idUtilisateur=?1", nativeQuery = true)
+	Optional<List<Tache>> findAllTaches(Long idUtilisateur);
 	
-	@Query(value= "SELECT * FROM tache WHERE DATE_FORMAT(date_echeance, \"%Y-%m-%d\") = DATE_FORMAT(NOW(),\"%Y-%m-%d\")", nativeQuery = true)
+	/*@Query(value= "SELECT * FROM tache WHERE DATE_FORMAT(date_echeance, \"%Y-%m-%d\") = DATE_FORMAT(NOW(),\"%Y-%m-%d\")", nativeQuery = true)
 	Optional<List<Tache>> findByDate();
 	
 	@Query(value= "SELECT * FROM tache WHERE DATE_FORMAT(date_echeance, \"%Y-%m-%d\") < DATE_FORMAT(NOW(),\"%Y-%m-%d\")", nativeQuery = true)

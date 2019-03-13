@@ -1,5 +1,7 @@
 package com.formation.toDoList.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.formation.toDoList.dto.TacheItem;
+import com.formation.toDoList.dto.TacheLite;
 import com.formation.toDoList.persistence.entity.Tache;
 import com.formation.toDoList.service.ITacheService;
 
@@ -40,7 +43,7 @@ public class TacheSecureController {
 	 */
 	@PostMapping
 	@ResponseBody
-	public TacheItem save(@RequestBody Tache tache){
+	public TacheItem save(@RequestBody TacheLite tache){
 		return tacheService.save(tache);
 	}
 	
@@ -102,15 +105,15 @@ public class TacheSecureController {
 		return tacheService.lie(idTache, idProjet);
 	}
 	
-	/*@GetMapping
+	@GetMapping
 	@ResponseBody
-	public List<TacheListItem> findAll() {
+	public List<TacheItem> findAll() {
 		
-		return tacheService.findAll();
+		return tacheService.findAllTaches();
 	}
 	
 
-	@GetMapping (value= "/today")
+	/*@GetMapping (value= "/today")
 	@ResponseBody
 	public List<TacheListItem> findByDate() {
 		

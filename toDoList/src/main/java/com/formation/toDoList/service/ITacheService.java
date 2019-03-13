@@ -1,6 +1,9 @@
 package com.formation.toDoList.service;
 
+import java.util.List;
+
 import com.formation.toDoList.dto.TacheItem;
+import com.formation.toDoList.dto.TacheLite;
 import com.formation.toDoList.persistence.entity.Tache;
 
 /**
@@ -39,7 +42,7 @@ public interface ITacheService {
 
 	String deleteById(Long id);
 
-	TacheItem save(Tache tache);
+	TacheItem save(TacheLite tache);
 	
 	/**
 	 * 
@@ -47,7 +50,7 @@ public interface ITacheService {
 	 * @desc: Permet d'afficher toutes les taches
 	 * @param: 
 	 */
-	//List<TacheListItem> findAll();
+	List<TacheItem> findAllTaches();
 	
 	/**
 	 * 
