@@ -1,6 +1,7 @@
 package com.formation.toDoList.dto;
 
 import java.util.Date;
+import java.util.Optional;
 
 import com.formation.toDoList.persistence.entity.Projet;
 
@@ -10,6 +11,7 @@ public class TacheLite {
 	private Date dateEcheance;
 	private int priorite;
 	private Projet projet;
+	private Optional<Long> id;
 	
 	public TacheLite() {}
 
@@ -43,6 +45,14 @@ public class TacheLite {
 
 	public void setProjet(Projet projet) {
 		this.projet = projet;
+	}
+
+	public Optional<Long> getId() {
+		return id;
+	}
+
+	public void setId(Optional<Long> id) {
+		this.id = id;
 	}
 	
 }

@@ -27,7 +27,7 @@ import com.formation.toDoList.service.IUtilisateurService;
  */
 
 @RestController
-@RequestMapping(value="/api/user")
+@RequestMapping(value="/api/public/user")
 public class UtilisateurController {
 	
 	@Autowired

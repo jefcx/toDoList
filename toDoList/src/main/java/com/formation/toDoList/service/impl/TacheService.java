@@ -80,25 +80,48 @@ public class TacheService implements ITacheService {
 	}
 
 	@Override
-	public String deleteById(Long id) {
+	public void deleteById(Long id) {
 
 		Optional<Tache> opt = tacheRepo.findTache(id, authChecker.isUtilisateur().getId());
 
 		if (opt.isPresent()) {
+			
 			tacheRepo.deleteById(id);
-			return "La tache id: " + id + " a été supprimée.";
 		} else {
-			return "La tache id: " + id + " n'existe pas.";
+			
 		}
 	}
 
 	@Override
-	public TacheItem modify(Tache tacheToModify) throws NotFoundException {
-		Optional<Tache> opt = tacheRepo.findTache(tacheToModify.getId(), authChecker.isUtilisateur().getId());
+	public TacheItem modify(TacheLite tacheToModify) throws NotFoundException {
+		
+		Long myId = tacheToModify.getId().get();
+		
+		Optional<Tache> opt = tacheRepo.findTache(myId, authChecker.isUtilisateur().getId());
 
 		if (opt.isPresent()) {
-
-			return new TacheItem(tacheRepo.save(tacheToModify));
+			
+			Optional<Projet> optProjet = projetRepo.findByLibelle(tacheToModify.getProjet().getLibelle());
+			if (optProjet.isPresent()) {
+				tacheToModify.setProjet(optProjet.get());
+			} else {
+				Projet projet = new Projet();
+				projet.setLibelle(tacheToModify.getProjet().getLibelle());
+				projetRepo.save(projet);
+				projet.setId(projetRepo.findByLibelle(tacheToModify.getProjet().getLibelle()).get().getId());
+				tacheToModify.setProjet(projet);
+			}
+			
+			
+			Tache tache = new Tache();
+			tache.setContenu(tacheToModify.getContenu());
+			tache.setDateEcheance(tacheToModify.getDateEcheance());
+			tache.setPriorite(tacheToModify.getPriorite());
+			tache.setProjet(tacheToModify.getProjet());
+			tache.setUtilisateur(authChecker.isUtilisateur());
+			tache.setId(myId);
+			
+			return new TacheItem(tacheRepo.save(tache));
 		}
 		// TODO message d'erreur
 		else

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.formation.toDoList.dto.TacheItem;
 import com.formation.toDoList.dto.TacheLite;
-import com.formation.toDoList.persistence.entity.Tache;
 
 /**
  * @project: toDoList
@@ -22,7 +21,7 @@ public interface ITacheService {
 	 * @desc: Permet de modifier une tache
 	 * @param: Objet de type Tache
 	 */
-	TacheItem modify(Tache tacheToModify);
+	TacheItem modify(TacheLite tacheToModify);
 	
 	/**
 	 * 
@@ -40,7 +39,7 @@ public interface ITacheService {
 	 */
 	TacheItem lie(Long idTache, Long idProjet);
 
-	String deleteById(Long id);
+	void deleteById(Long id);
 
 	TacheItem save(TacheLite tache);
 	

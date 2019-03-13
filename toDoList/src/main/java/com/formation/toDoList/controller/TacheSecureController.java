@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.formation.toDoList.dto.TacheItem;
 import com.formation.toDoList.dto.TacheLite;
-import com.formation.toDoList.persistence.entity.Tache;
 import com.formation.toDoList.service.ITacheService;
 
 /**
@@ -57,8 +56,11 @@ public class TacheSecureController {
 	 */
 	@DeleteMapping(value="/{id}")
 	@ResponseBody
-	public String delete(@PathVariable Long id){
-		return tacheService.deleteById(id);
+	public void delete(@PathVariable String id){
+		
+		Long myId = Long.parseLong(id) ; 
+		
+		tacheService.deleteById(myId);
 	}
 	
 	/**
@@ -71,7 +73,7 @@ public class TacheSecureController {
 	 */
 	@PutMapping
 	@ResponseBody
-	public TacheItem modify(@RequestBody Tache tacheToModify){
+	public TacheItem modify(@RequestBody TacheLite tacheToModify){
 		return tacheService.modify(tacheToModify);
 	}
 	
